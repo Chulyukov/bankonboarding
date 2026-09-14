@@ -5,10 +5,11 @@ import lombok.Data;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.DeliveredProduct;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @AllArgsConstructor
 public class Invoice {
-    private Integer totalAmount;
+    private AtomicInteger totalAmount;
     private List<DeliveredProduct> deliveredProducts;
 }
