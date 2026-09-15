@@ -1,3 +1,9 @@
 spring:
   application:
     name: bankonboarding
+  mongodb:
+    uri: ${SPRING_DATA_MONGODB_URI:mongodb://shop_db_admin:strongpass321@localhost:27017/shop_db?authSource=admin}
+  docker:
+    compose:
+      file: compose-db.yaml
+      lifecycle-management: start_and_stop
