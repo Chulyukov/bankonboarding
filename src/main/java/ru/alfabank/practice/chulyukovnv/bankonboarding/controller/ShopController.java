@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Invoice;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Welcome;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.OrderedProduct;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.ProductManager;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.ProductCatalog;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.service.ShopService;
 
 import java.util.List;
@@ -26,8 +26,8 @@ public class ShopController {
     }
 
     @GetMapping("/product")
-    public ProductManager getProducts() {
-        return shopService.getProductManager();
+    public ProductCatalog getProducts() {
+        return shopService.getProducts();
     }
 
     @PostMapping("/calc")
