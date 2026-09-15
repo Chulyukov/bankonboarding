@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-    @AllArgsConstructor
-    public class DeliveredProduct {
-        private String name;
-        private Integer pricePerUnit;
-        private Integer count;
-        private Integer amount;
-    }
+@AllArgsConstructor
+public class DeliveredProduct {
+    private String name;
+    private Integer pricePerUnit;
+    private Integer count;
+    private Integer amount;
+}

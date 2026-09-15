@@ -10,11 +10,10 @@ import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.OrderedProd
 import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.Product;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.ProductManager;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ShopService {
@@ -25,35 +24,29 @@ public class ShopService {
         return new Welcome("Добро пожаловать в наш чудесный магазин");
     }
 
-    public List<Product> getProducts() {
-        return productManager.getProducts();
+    public ProductManager getProductManager() {
+        return productManager;
     }
 
     public Invoice calc(List<OrderedProduct> orderedProducts) {
         validateProductIds(orderedProducts);
-        int totalAmount = 0;
-        List<DeliveredProduct> deliveredProducts = new ArrayList<>();
-        for (OrderedProduct orderedProduct : orderedProducts) {
-            for (Product existingProduct : productManager.getProducts()) {
-                if (Objects.equals(orderedProduct.getId(), existingProduct.getId())) {
-                    DeliveredProduct deliveredProduct = new DeliveredProduct(
-                            existingProduct.getName(),
-                            existingProduct.getPrice(),
-                            orderedProduct.getCount(),
-                            orderedProduct.getCount() * existingProduct.getPrice()
-                    );
-                    totalAmount += orderedProduct.getCount() * existingProduct.getPrice();
-                    deliveredProducts.add(deliveredProduct);
-                }
-            }
-        }
+        AtomicInteger totalAmount = new AtomicInteger();
+        List<DeliveredProduct> deliveredProducts = orderedProducts.stream().map(orderedProduct -> {
+            Product existingProduct = productManager.getProducts().get(orderedProduct.getId());
+            DeliveredProduct deliveredProduct = new DeliveredProduct(
+                    existingProduct.getName(),
+                    existingProduct.getPrice(),
+                    orderedProduct.getCount(),
+                    orderedProduct.getCount() * existingProduct.getPrice()
+            );
+            totalAmount.addAndGet(orderedProduct.getCount() * existingProduct.getPrice());
+            return deliveredProduct;
+        }).toList();
         return new Invoice(totalAmount, deliveredProducts);
     }
 
     private void validateProductIds(List<OrderedProduct> orderedProducts) {
-        Set<Integer> existingIds = productManager.getProducts().stream()
-                .map(Product::getId)
-                .collect(Collectors.toSet());
+        Set<Integer> existingIds = new HashSet<>(productManager.getProducts().keySet());
         orderedProducts.stream().map(OrderedProduct::getId)
                 .filter(id -> !existingIds.contains(id)).findFirst().ifPresent(invalidId -> {
                     throw new NoSuchProductIdException(invalidId);

@@ -1,4 +1,4 @@
-package ru.alfabank.practice.chulyukovnv.bankonboarding.exception;
+package ru.alfabank.practice.chulyukovnv.bankonboarding.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
