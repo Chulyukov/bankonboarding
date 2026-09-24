@@ -20,6 +20,7 @@ services:
     depends_on:
       - mongodb
     environment:
+      - DADATA_API_KEY=${DADATA_API_KEY}
       - SPRING_DOCKER_COMPOSE_ENABLED=false
       - SPRING_DATA_MONGODB_URI=mongodb://${DB_USER}:${DB_PASS}@mongodb:27017/${DB_NAME}?authSource=admin
 
