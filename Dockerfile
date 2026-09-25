@@ -2,7 +2,7 @@ FROM gradle:jdk21 AS build
 WORKDIR /app
 COPY build.gradle settings.gradle ./
 COPY src ./src
-RUN gradle bootJar -x test
+RUN gradle bootJar
 
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app

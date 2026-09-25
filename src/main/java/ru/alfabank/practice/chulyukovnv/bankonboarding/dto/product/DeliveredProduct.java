@@ -1,6 +1,6 @@
-package ru.alfabank.practice.chulyukovnv.bankonboarding.model.product;
+package ru.alfabank.practice.chulyukovnv.bankonboarding.dto.product;
 
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Product;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Product;
 
 public record DeliveredProduct(
         String name,

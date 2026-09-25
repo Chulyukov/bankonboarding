@@ -1,4 +1,4 @@
-package ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity;
+package ru.alfabank.practice.chulyukovnv.bankonboarding.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

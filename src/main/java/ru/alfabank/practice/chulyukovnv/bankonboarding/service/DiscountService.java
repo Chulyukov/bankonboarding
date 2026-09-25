@@ -2,8 +2,8 @@ package ru.alfabank.practice.chulyukovnv.bankonboarding.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Discount;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Product;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Discount;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Product;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.repository.DiscountRepository;
 
 import java.util.List;

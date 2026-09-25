@@ -3,13 +3,14 @@ package ru.alfabank.practice.chulyukovnv.bankonboarding.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.product.DeliveredProduct;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.product.OrderedProduct;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.request.OrderedInfoRequest;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.OrderedInfoResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.ProductsResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.WelcomeResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Product;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.exception.NoSuchProductIdException;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Invoice;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Welcome;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Product;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.DeliveredProduct;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.OrderedProduct;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.ProductCatalog;
 
 import java.util.List;
 import java.util.Map;
@@ -21,18 +22,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ShopService {
     private final ProductService productService;
     private final DiscountService discountService;
+    private final DadataService dadataService;
 
-    public Welcome welcome() {
-        return new Welcome("Добро пожаловать в наш чудесный магазин");
+    public WelcomeResponse welcome() {
+        return new WelcomeResponse("Добро пожаловать в наш чудесный магазин");
     }
 
-    public ProductCatalog getProducts() {
-        return new ProductCatalog(productService.findAvailableProducts().stream()
+    public ProductsResponse getProducts() {
+        return new ProductsResponse(productService.findAvailableProducts().stream()
                 .map(discountService::applyDiscount)
                 .toList());
     }
 
-    public Invoice calc(List<OrderedProduct> orderedProducts) {
+    public OrderedInfoResponse calc(OrderedInfoRequest orderedInfoRequest) {
+        dadataService.validateDeliveryAddress(orderedInfoRequest.deliveryAddress());
+        List<OrderedProduct> orderedProducts = orderedInfoRequest.orderedProducts();
         validateProductIds(orderedProducts);
         AtomicInteger totalAmount = new AtomicInteger();
         Map<Integer, Product> existingProductsMap = productService.findAvailableProductsMap();
@@ -42,8 +46,9 @@ public class ShopService {
             totalAmount.addAndGet(deliveredProduct.amount());
             return deliveredProduct;
         }).toList();
-        return new Invoice(totalAmount, deliveredProducts);
+        return new OrderedInfoResponse(totalAmount, deliveredProducts);
     }
+
 
     private void validateProductIds(List<OrderedProduct> orderedProducts) {
         orderedProducts.stream().map(OrderedProduct::id)

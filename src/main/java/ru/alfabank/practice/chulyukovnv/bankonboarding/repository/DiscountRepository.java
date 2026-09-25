@@ -1,8 +1,8 @@
 package ru.alfabank.practice.chulyukovnv.bankonboarding.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Discount;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Product;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Discount;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Product;
 
 import java.util.List;
 
