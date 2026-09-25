@@ -5,8 +5,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Discount;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Product;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Discount;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Product;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.repository.DiscountRepository;
 
 import java.util.List;

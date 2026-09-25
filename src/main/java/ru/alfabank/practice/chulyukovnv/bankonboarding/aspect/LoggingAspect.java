@@ -7,7 +7,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 @Slf4j
 @Aspect
@@ -15,12 +14,18 @@ import java.util.UUID;
 public class LoggingAspect {
     @Around("@annotation(ru.alfabank.practice.chulyukovnv.bankonboarding.aspect.Log)")
     public Object aroundLogging(ProceedingJoinPoint joinPoint) throws Throwable {
-        UUID uuid = UUID.randomUUID();
         String methodName = joinPoint.getSignature().getDeclaringTypeName();
         Object[] agrs = joinPoint.getArgs();
-        log.info("{} — Request {} => {}", uuid, methodName, Arrays.toString(agrs));
-        Object result = joinPoint.proceed();
-        log.info("{} — Response {} <= {}", uuid, methodName, result);
+        log.info("Request {} => {}", methodName, Arrays.toString(agrs));
+        Object result;
+        try {
+            result = joinPoint.proceed();
+
+        } catch (Throwable e) {
+            log.warn("Error: {}", e.getMessage());
+            throw e;
+        }
+        log.info("Response {} <= {}", methodName, result);
         return result;
     }
 

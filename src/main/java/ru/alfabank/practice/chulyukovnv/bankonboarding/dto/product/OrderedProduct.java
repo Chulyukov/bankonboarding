@@ -1,4 +1,4 @@
-package ru.alfabank.practice.chulyukovnv.bankonboarding.model.product;
+package ru.alfabank.practice.chulyukovnv.bankonboarding.dto.product;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

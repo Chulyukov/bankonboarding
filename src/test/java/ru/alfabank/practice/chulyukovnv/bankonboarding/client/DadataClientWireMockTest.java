@@ -8,8 +8,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.cloud.openfeign.support.SpringMvcContract;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.client.DadataAddressRequest;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.client.DadataAddressResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.request.DadataAddressRequest;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.DadataAddressResponse;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;

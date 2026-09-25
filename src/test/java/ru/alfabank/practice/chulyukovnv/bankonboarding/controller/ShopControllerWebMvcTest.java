@@ -5,17 +5,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import tools.jackson.databind.ObjectMapper;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.product.DeliveredProduct;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.product.OrderedProduct;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.request.OrderedInfoRequest;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.OrderedInfoResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.ProductsResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.WelcomeResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.entity.Product;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.exception.GlobalExceptionHandler;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.exception.NoSuchProductIdException;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Invoice;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.OrderedInfo;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Welcome;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.entity.Product;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.DeliveredProduct;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.OrderedProduct;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.ProductCatalog;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.service.ShopService;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -44,7 +44,7 @@ class ShopControllerWebMvcTest {
 
     @Test
     void welcome_shouldReturnWelcomeMessage() throws Exception {
-        when(shopService.welcome()).thenReturn(new Welcome("Добро пожаловать в наш чудесный магазин"));
+        when(shopService.welcome()).thenReturn(new WelcomeResponse("Добро пожаловать в наш чудесный магазин"));
 
         mockMvc.perform(get("/shop/welcome"))
                 .andExpect(status().isOk())
@@ -54,7 +54,7 @@ class ShopControllerWebMvcTest {
     @Test
     void getProducts_shouldReturnProductCatalog() throws Exception {
         Product product = new Product(1, "Ноутбук", true, 1000);
-        when(shopService.getProducts()).thenReturn(new ProductCatalog(List.of(product)));
+        when(shopService.getProducts()).thenReturn(new ProductsResponse(List.of(product)));
 
         mockMvc.perform(get("/shop/product"))
                 .andExpect(status().isOk())
@@ -64,11 +64,11 @@ class ShopControllerWebMvcTest {
 
     @Test
     void calc_shouldAcceptValidJsonAndReturnInvoice() throws Exception {
-        OrderedInfo request = new OrderedInfo("г Москва, ул Тверская, д 1",
+        OrderedInfoRequest request = new OrderedInfoRequest("г Москва, ул Тверская, д 1",
                 List.of(new OrderedProduct(1, 2)));
-        Invoice invoice = new Invoice(new AtomicInteger(1800),
+        OrderedInfoResponse orderedInfoResponse = new OrderedInfoResponse(new AtomicInteger(1800),
                 List.of(new DeliveredProduct("Ноутбук", 900, 2, 1800)));
-        when(shopService.calc(request)).thenReturn(invoice);
+        when(shopService.calc(request)).thenReturn(orderedInfoResponse);
 
         mockMvc.perform(post("/shop/calc")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -115,7 +115,7 @@ class ShopControllerWebMvcTest {
 
     @Test
     void calc_shouldReturnNotFound_WhenServiceThrowsApplicationException() throws Exception {
-        OrderedInfo request = new OrderedInfo("г Москва, ул Тверская, д 1",
+        OrderedInfoRequest request = new OrderedInfoRequest("г Москва, ул Тверская, д 1",
                 List.of(new OrderedProduct(99, 1)));
         when(shopService.calc(request)).thenThrow(new NoSuchProductIdException(99));
 

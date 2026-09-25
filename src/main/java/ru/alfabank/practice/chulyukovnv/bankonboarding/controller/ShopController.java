@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.aspect.Log;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Invoice;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.OrderedInfo;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.Welcome;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.product.ProductCatalog;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.request.OrderedInfoRequest;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.OrderedInfoResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.ProductsResponse;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response.WelcomeResponse;
 import ru.alfabank.practice.chulyukovnv.bankonboarding.service.ShopService;
 
 @RestController
@@ -22,19 +22,19 @@ public class ShopController {
 
     @Log
     @GetMapping("/welcome")
-    public Welcome welcome() {
+    public WelcomeResponse welcome() {
         return shopService.welcome();
     }
 
     @Log
     @GetMapping("/product")
-    public ProductCatalog getProducts() {
+    public ProductsResponse getProducts() {
         return shopService.getProducts();
     }
 
     @Log
     @PostMapping("/calc")
-    public Invoice calc(@Valid @RequestBody OrderedInfo orderedInfo) {
-        return shopService.calc(orderedInfo);
+    public OrderedInfoResponse calc(@Valid @RequestBody OrderedInfoRequest orderedInfoRequest) {
+        return shopService.calc(orderedInfoRequest);
     }
 }

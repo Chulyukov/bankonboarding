@@ -7,22 +7,12 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import ru.alfabank.practice.chulyukovnv.bankonboarding.model.InfoIncorrectData;
+import ru.alfabank.practice.chulyukovnv.bankonboarding.dto.error.InfoIncorrectData;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ApplicationException.class)
     public ResponseEntity<InfoIncorrectData> handleException(ApplicationException e) {
-        return buildResponse(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(EmptyDeliveryAddressException.class)
-    public ResponseEntity<InfoIncorrectData> handleException(EmptyDeliveryAddressException e) {
-        return buildResponse(e.getMessage(), HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(IncorrectDeliveryAddress.class)
-    public ResponseEntity<InfoIncorrectData> handleException(IncorrectDeliveryAddress e) {
         return buildResponse(e.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -36,7 +26,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<InfoIncorrectData> handleInvalidBodyException(HttpMessageNotReadableException e) {
+    public ResponseEntity<InfoIncorrectData> handleInvalidBodyException() {
         return buildResponse("Request body is invalid", HttpStatus.BAD_REQUEST);
     }
 

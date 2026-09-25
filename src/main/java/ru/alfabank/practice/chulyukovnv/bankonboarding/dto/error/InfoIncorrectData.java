@@ -1,4 +1,4 @@
-package ru.alfabank.practice.chulyukovnv.bankonboarding.model;
+package ru.alfabank.practice.chulyukovnv.bankonboarding.dto.error;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

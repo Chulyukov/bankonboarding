@@ -1,4 +1,4 @@
-package ru.alfabank.practice.chulyukovnv.bankonboarding.model.client;
+package ru.alfabank.practice.chulyukovnv.bankonboarding.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
